@@ -18,11 +18,28 @@ class GildedRoseTest {
     // general
 
     @Test
+    void itemToStringMethod(){
+        Item[] items = new Item[]{ new Item("Golder Pearl", 21, 49)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("Golder Pearl, 20, 48", app.items[0].toString());
+    }
+
+
+    @Test
+    void itemQualityDecreasesOverTime(){
+        Item[] items = new Item[] { new Item("Gold Ore", 3, 17) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(16, app.items[0].quality);
+    }
+
+    @Test
     void itemCannotHaveNegativeQuality(){
         Item[] items = new Item[] { new Item("Linen Cloth", 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assert app.items[0].quality >= 0;
+        assertEquals(0, app.items[0].quality);
     }
 
     @Test
@@ -30,7 +47,7 @@ class GildedRoseTest {
         Item[] items = new Item[] { new Item(BACKSTAGE_PASS, 3, 48) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assert  app.items[0].quality <= 50;
+        assertEquals(50, app.items[0].quality);
     }
 
     @Test
@@ -49,6 +66,14 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(15, app.items[0].quality);
+    }
+
+    @Test
+    void conjuredItemDegradeAfterSellinPassed(){
+        Item[] items = new Item[] { new Item("Conjured potato", 0, 17) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(13, app.items[0].quality);
     }
 
     // Backstage Pass
